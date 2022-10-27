@@ -14,6 +14,10 @@ public sealed class BuildLocatorTests
             ? @"c:\demo\"
             : "/var/demo/";
 
+        var ext = OperatingSystem.IsWindows()
+            ? @".bat"
+            : ".sh";
+
         var s = Path.DirectorySeparatorChar;
 
         var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
@@ -23,13 +27,13 @@ public sealed class BuildLocatorTests
             { @$"{root}sub{s}image.gif", new MockFileData(new byte[] { 0x12, 0x34, 0x56, 0xd2 }) },
             { @$"{root}sub{s}sub{s}image.gif", new MockFileData(new byte[] { 0x12, 0x34, 0x56, 0xd2 }) },
             { @$"{root}sub{s}sub{s}sub{s}image.gif", new MockFileData(new byte[] { 0x12, 0x34, 0x56, 0xd2 }) },
-            { @$"{root}sub{s}b.bat", new MockFileData("")}
+            { @$"{root}sub{s}b{ext}", new MockFileData("")}
         });
 
         var locator = new BuildLocator(fileSystem);
 
         var path = locator.LocateBuildScript(@$"{root}sub{s}sub{s}sub");
-        path.ShouldBe(@$"{root}sub{s}b.bat");
+        path.ShouldBe(@$"{root}sub{s}b{ext}");
     }
 
     [IgnoreUnixFact]
