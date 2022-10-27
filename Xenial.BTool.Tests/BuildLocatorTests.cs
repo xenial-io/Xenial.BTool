@@ -10,20 +10,26 @@ public sealed class BuildLocatorTests
     [Fact]
     public void LocateBuildScript()
     {
+        var root = OperatingSystem.IsWindows()
+            ? @"c:\demo\"
+            : "/var/demo/";
+
+        var s = Path.DirectorySeparatorChar;
+
         var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
         {
-            { @"c:\myfile.txt", new MockFileData("Testing is meh.") },
-            { @"c:\demo\jQuery.js", new MockFileData("some js") },
-            { @"c:\demo\sub\image.gif", new MockFileData(new byte[] { 0x12, 0x34, 0x56, 0xd2 }) },
-            { @"c:\demo\sub\sub\image.gif", new MockFileData(new byte[] { 0x12, 0x34, 0x56, 0xd2 }) },
-            { @"c:\demo\sub\sub\sub\image.gif", new MockFileData(new byte[] { 0x12, 0x34, 0x56, 0xd2 }) },
-            { @"c:\demo\sub\b.bat", new MockFileData("")}
+            { @$"{root}myfile.txt", new MockFileData("Testing is meh.") },
+            { @$"{root}jQuery.js", new MockFileData("some js") },
+            { @$"{root}sub{s}image.gif", new MockFileData(new byte[] { 0x12, 0x34, 0x56, 0xd2 }) },
+            { @$"{root}sub{s}sub{s}image.gif", new MockFileData(new byte[] { 0x12, 0x34, 0x56, 0xd2 }) },
+            { @$"{root}sub{s}sub{s}sub{s}image.gif", new MockFileData(new byte[] { 0x12, 0x34, 0x56, 0xd2 }) },
+            { @$"{root}sub{s}b.bat", new MockFileData("")}
         });
 
         var locator = new BuildLocator(fileSystem);
 
-        var path = locator.LocateBuildScript(@"c:\demo\sub\sub\sub");
-        path.ShouldBe(@"c:\demo\sub\b.bat");
+        var path = locator.LocateBuildScript(@$"{root}sub{s}sub{s}sub");
+        path.ShouldBe(@$"{root}sub{s}b.bat");
     }
 
     [IgnoreUnixFact]
@@ -48,18 +54,24 @@ public sealed class BuildLocatorTests
     [Fact]
     public void NotExitingReturnsNull()
     {
+        var root = OperatingSystem.IsWindows()
+            ? @"c:\demo\"
+            : "/var/demo/";
+
+        var s = Path.DirectorySeparatorChar;
+
         var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
         {
-            { @"c:\myfile.txt", new MockFileData("Testing is meh.") },
-            { @"c:\demo\jQuery.js", new MockFileData("some js") },
-            { @"c:\demo\sub\image.gif", new MockFileData(new byte[] { 0x12, 0x34, 0x56, 0xd2 }) },
-            { @"c:\demo\sub\sub\image.gif", new MockFileData(new byte[] { 0x12, 0x34, 0x56, 0xd2 }) },
-            { @"c:\demo\sub\sub\sub\image.gif", new MockFileData(new byte[] { 0x12, 0x34, 0x56, 0xd2 }) },
+            { @$"{root}myfile.txt", new MockFileData("Testing is meh.") },
+            { @$"{root}jQuery.js", new MockFileData("some js") },
+            { @$"{root}sub{s}image.gif", new MockFileData(new byte[] { 0x12, 0x34, 0x56, 0xd2 }) },
+            { @$"{root}sub{s}sub{s}image.gif", new MockFileData(new byte[] { 0x12, 0x34, 0x56, 0xd2 }) },
+            { @$"{root}sub{s}sub{s}sub{s}image.gif", new MockFileData(new byte[] { 0x12, 0x34, 0x56, 0xd2 }) },
         });
 
         var locator = new BuildLocator(fileSystem);
 
-        var path = locator.LocateBuildScript(@"c:\demo\sub\sub\sub");
+        var path = locator.LocateBuildScript(@$"{root}sub{s}sub{s}sub");
         path.ShouldBeNull();
     }
 }
