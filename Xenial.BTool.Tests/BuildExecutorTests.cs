@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Abstractions;
-using System.IO.Abstractions.TestingHelpers;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO.Abstractions;
 
 using Xenial.BTool;
+using Xenial.BTool.Tests;
 
 namespace Xenial.Tests.BTool;
 
 public sealed class BuildExecutorTests
 {
-    [Fact]
+    [IgnoreUnixFact]
     public void Run()
     {
         var executor = new BuildExecutor(new BuildLocator(new FileSystem()));
@@ -20,7 +15,7 @@ public sealed class BuildExecutorTests
         executor.Run(Array.Empty<string>());
     }
 
-    [Fact]
+    [IgnoreUnixFact]
     public Task RunAsync()
     {
         var executor = new BuildExecutor(new BuildLocator(new FileSystem()));
