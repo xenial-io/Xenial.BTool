@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xenial.BTool", "Xenial.BToo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xenial.BTool.Tests", "Xenial.BTool.Tests\Xenial.BTool.Tests.csproj", "{031877A2-4388-4483-8D4E-2CE7BAE83BEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "build", "build\build.csproj", "{C66D229F-2957-4D70-9E13-3F6D6E23FF41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{031877A2-4388-4483-8D4E-2CE7BAE83BEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{031877A2-4388-4483-8D4E-2CE7BAE83BEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{031877A2-4388-4483-8D4E-2CE7BAE83BEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C66D229F-2957-4D70-9E13-3F6D6E23FF41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C66D229F-2957-4D70-9E13-3F6D6E23FF41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C66D229F-2957-4D70-9E13-3F6D6E23FF41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C66D229F-2957-4D70-9E13-3F6D6E23FF41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
