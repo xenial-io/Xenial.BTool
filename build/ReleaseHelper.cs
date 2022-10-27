@@ -2,7 +2,7 @@
 
 internal static class ReleaseHelper
 {
-    enum VersionIncrement
+    internal enum VersionIncrement
     {
         Patch,
         Minor,
@@ -113,7 +113,7 @@ internal static class ReleaseHelper
         return tags.Split("\n");
     }
 
-    static Task<IEnumerable<Version>> ParseTags(IEnumerable<string> tags)
+    private static Task<IEnumerable<Version>> ParseTags(IEnumerable<string> tags)
     {
         Header("Parse versions");
         IEnumerable<string> CollectVersion(char versionSelector)
@@ -139,15 +139,21 @@ internal static class ReleaseHelper
 
         return Task.FromResult(versions.AsEnumerable());
     }
-    static Task<Version> MaxVersion(IEnumerable<Version> versions)
+    private static Task<Version> MaxVersion(IEnumerable<Version> versions)
     {
         Header("Maximum version");
         var version = versions.Max();
-        LogVerbose(version?.ToString()!);
-        return Task.FromResult(version!);
+
+        if (version is null)
+        {
+            LogVerbose("There is currently no version yet. Assuming you want to release 0.0.1");
+            return Task.FromResult(new Version(0, 0, 0));
+        }
+        LogVerbose(version.ToString());
+        return Task.FromResult(version);
     }
 
-    static Task<VersionIncrement?> AskVersion(Version maxVersion)
+    private static Task<VersionIncrement?> AskVersion(Version maxVersion)
     {
         Header($"Current version is {maxVersion}");
 
@@ -179,7 +185,7 @@ internal static class ReleaseHelper
         return Task.FromResult(result);
     }
 
-    static async Task TagVersion(Version nextVersion)
+    private static async Task TagVersion(Version nextVersion)
     {
         var tag = $"v{ToSemVer(nextVersion)}";
         Header($"Tagging {tag}");
@@ -187,7 +193,7 @@ internal static class ReleaseHelper
         await RunAsync("git", $"tag {tag}");
     }
 
-    static async Task PushTags()
+    private static async Task PushTags()
     {
         Header($"Pushing tags");
 
@@ -226,7 +232,7 @@ internal static class ReleaseHelper
         Console.WriteLine();
     }
 
-    static string Tabify(string s)
+    private static string Tabify(string s)
         => string.Join(
             Environment.NewLine,
             s.Split("\n").Select(s => $"\t{s}")
