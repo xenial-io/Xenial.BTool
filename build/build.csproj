@@ -15,9 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-	<Using Include="build" />
-	<Using Include="SimpleExec.Command" Static="true"/>
-	<Using Include="Bullseye.Targets" Static="true"/>
+	  <Using Include="SimpleExec.Command" Static="true" />
+	  <Using Include="Bullseye.Targets" Static="true" />
   </ItemGroup>
 
 </Project>
